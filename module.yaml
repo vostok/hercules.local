@@ -1,0 +1,28 @@
+notests *default:
+  build:
+    target: Vostok.Hercules.Local.sln
+    configuration: NoTests
+    tool:
+      name: dotnet
+
+  install:
+    - Vostok.Hercules.Local/bin/Release/netstandard2.0/Vostok.Hercules.Local.dll
+
+  deps:
+    - vostok.zookeeper.client
+    - vostok.zookeeper.client.abstractions
+    - vostok.clusterclient.transport
+    - vostok.clusterclient.core
+    - vostok.configuration.abstractions
+    - vostok.kafka.local
+    - vostok.zookeeper.localensemble
+    - vostok.logging.abstractions
+    - vostok.commons.local
+    - vostok.devtools
+
+full-build > notests:
+  deps:
+    - vostok.logging.console
+  build:
+    target: Vostok.Hercules.Local.sln
+    configuration: Release
