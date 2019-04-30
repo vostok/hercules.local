@@ -39,8 +39,8 @@ namespace Vostok.Hercules.Local.Components.Bases
 
             base.Start();
 
-            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(60.Seconds()))
-                throw new TimeoutException($"{componentSettings.GetDisplayName()} has not warmed up in 60 seconds.");
+            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(3.Minutes()))
+                throw new TimeoutException($"{componentSettings.GetDisplayName()} has not warmed up in 3 minutes.");
         }
     }
 }
