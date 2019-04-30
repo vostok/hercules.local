@@ -44,7 +44,7 @@ namespace Vostok.Hercules.Local
                     {
                         log.Info($"Begin downloading {asset.Name}..");
 
-                        var response = await SendRequestAsync(Request.Get(asset.BrowserDownloadUrl), 2.Minutes());
+                        var response = await SendRequestAsync(Request.Get(asset.BrowserDownloadUrl), 2.Minutes()).ConfigureAwait(false);
                         if (response.Code != ResponseCode.Ok)
                             throw new Exception($"Request to {asset.BrowserDownloadUrl} failed with code = {response.Code}.");
 
