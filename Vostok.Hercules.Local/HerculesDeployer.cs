@@ -154,7 +154,7 @@ namespace Vostok.Hercules.Local
             {
                 DeployHerculesComponent(GetComponentName<HerculesInit>(), initSettings.BaseDirectory, initSettings.JarFileName);
                 var init = new HerculesInit(initSettings, clusterSettings, log);
-                init.Run(5.Seconds());
+                init.Run(30.Seconds());
             }
             finally
             {
