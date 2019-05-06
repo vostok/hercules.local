@@ -7,6 +7,10 @@ notests *default:
 
   install:
     - Vostok.Hercules.Local/bin/Release/netstandard2.0/Vostok.Hercules.Local.dll
+    - nuget Newtonsoft.Json/12.0.1
+    - nuget SharpZipLib/1.1.0
+    - nuget Confluent.Kafka/1.0.0-RC2
+    - nuget librdkafka.redist/1.0.0
 
   deps:
     - vostok.zookeeper.client
