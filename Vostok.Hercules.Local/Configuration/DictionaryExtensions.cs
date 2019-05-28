@@ -35,6 +35,7 @@ namespace Vostok.Hercules.Local.Configuration
             properties.ConfigureKafkaCommons("consumer", kafkaConnectionString);
             properties["consumer.retries"] = "0";
             properties["consumer.poll.timeout"] = "250";
+            properties["consumer.poolSize"] = "30";
         }
     }
 }
