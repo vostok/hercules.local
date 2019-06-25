@@ -10,6 +10,7 @@ namespace Vostok.Hercules.Local.Components.Bases
     public class HerculesService : HerculesProcess
     {
         private readonly HerculesComponentSettings componentSettings;
+        private readonly TimeSpan startTimeout = 60.Seconds();
 
         internal HerculesService(HerculesComponentSettings componentSettings, ILog log)
             : base(componentSettings, log)
@@ -43,8 +44,8 @@ namespace Vostok.Hercules.Local.Components.Bases
 
             base.Start();
 
-            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(60.Seconds()))
-                throw new TimeoutException($"{componentSettings.GetDisplayName()} has not warmed up in 3 minutes.");
+            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(startTimeout))
+                throw new TimeoutException($"{componentSettings.GetDisplayName()} has not warmed up in {startTimeout} minutes.");
         }
     }
 }
