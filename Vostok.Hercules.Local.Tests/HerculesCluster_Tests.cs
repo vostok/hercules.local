@@ -12,16 +12,70 @@ namespace Vostok.Hercules.Local.Tests
     {
         private readonly ILog log = new SynchronousConsoleLog();
 
+        [Test]
+        public void Should_deploy_and_start_gate()
+        {
+            var settings = new HerculesDeploySettings
+            {
+                HerculesGateCount = 1,
+                HerculesManagementApiCount = 0,
+                HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 0
+            };
+            Check(settings);
+        }
+
+        [Test]
+        public void Should_deploy_and_start_management_api()
+        {
+            var settings = new HerculesDeploySettings
+            {
+                HerculesGateCount = 0,
+                HerculesManagementApiCount = 1,
+                HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 0
+            };
+            Check(settings);
+        }
+
+        [Test]
+        public void Should_deploy_and_start_management_stream_api()
+        {
+            var settings = new HerculesDeploySettings
+            {
+                HerculesGateCount = 0,
+                HerculesManagementApiCount = 0,
+                HerculesStreamApiCount = 1,
+                HerculesStreamManagerCount = 0
+            };
+            Check(settings);
+        }
+
+        [Test]
+        public void Should_deploy_and_start_management_stream_manager()
+        {
+            var settings = new HerculesDeploySettings
+            {
+                HerculesGateCount = 0,
+                HerculesManagementApiCount = 0,
+                HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 1
+            };
+            Check(settings);
+        }
+
         [TestCase(1)]
         [TestCase(3)]
         public void Should_deploy_and_start_cluster_by_default(int size)
         {
-            using (var cluster = HerculesCluster.DeployNew(new HerculesDeploySettings {HerculesGateCount = size, HerculesManagementApiCount = size, HerculesStreamApiCount = size, HerculesStreamManagerCount = size}, log))
+            var settings = new HerculesDeploySettings
             {
-                cluster.ZooKeeperEnsemble.IsRunning.Should().BeTrue();
-                cluster.KafkaInstance.IsRunning.Should().BeTrue();
-                cluster.HerculesServices.All(service => service.IsRunning).Should().BeTrue();
-            }
+                HerculesGateCount = size,
+                HerculesManagementApiCount = size,
+                HerculesStreamApiCount = size,
+                HerculesStreamManagerCount = size
+            };
+            Check(settings);
         }
 
         [Test]
@@ -32,6 +86,16 @@ namespace Vostok.Hercules.Local.Tests
                 cluster.ZooKeeperEnsemble.IsRunning.Should().BeTrue();
                 cluster.KafkaInstance.IsRunning.Should().BeTrue();
                 cluster.HerculesServices.All(service => service.IsRunning).Should().BeFalse();
+            }
+        }
+
+        private void Check(HerculesDeploySettings settings)
+        {
+            using (var cluster = HerculesCluster.DeployNew(settings, log))
+            {
+                cluster.ZooKeeperEnsemble.IsRunning.Should().BeTrue();
+                cluster.KafkaInstance.IsRunning.Should().BeTrue();
+                cluster.HerculesServices.All(service => service.IsRunning).Should().BeTrue();
             }
         }
     }

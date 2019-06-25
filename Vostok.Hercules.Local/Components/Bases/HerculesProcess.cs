@@ -38,7 +38,7 @@ namespace Vostok.Hercules.Local.Components.Bases
         {
             var properties = new JavaProperties(Properties);
             properties.Save(PropertiesFileName);
-            Log.Info("Hercules process configured with properties:\n{properties}", properties);    
+            Log.Info("Hercules process configured with properties:\n{properties}", properties);
         }
     }
 }

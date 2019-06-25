@@ -34,12 +34,16 @@ namespace Vostok.Hercules.Local.Components.Bases
         public override void Start()
         {
             Port = FreeTcpPortFinder.GetFreePort();
+
             Properties["http.server.host"] = Host;
             Properties["http.server.port"] = Port.ToString();
 
+            Properties["application.host"] = Host;
+            Properties["application.port"] = Port.ToString();
+
             base.Start();
 
-            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(3.Minutes()))
+            if (!new HerculesHttpServiceHealthChecker(Log, Host, Port).WaitStarted(60.Seconds()))
                 throw new TimeoutException($"{componentSettings.GetDisplayName()} has not warmed up in 3 minutes.");
         }
     }

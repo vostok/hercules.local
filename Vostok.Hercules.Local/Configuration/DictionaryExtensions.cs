@@ -26,7 +26,7 @@ namespace Vostok.Hercules.Local.Configuration
         public static void ConfigureKafkaProducer(this Dictionary<string, string> properties, string kafkaConnectionString)
         {
             properties.ConfigureKafkaCommons("producer", kafkaConnectionString);
-            properties["consumer.retries"] = "4";
+            properties["producer.retries"] = "4";
             properties["producer.retry.backoff.ms"] = "250";
         }
 
