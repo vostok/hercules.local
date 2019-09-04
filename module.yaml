@@ -13,7 +13,7 @@ notests *default:
     - nuget librdkafka.redist/1.0.0
 
   deps:
-    - vostok.zookeeper.client
+    - vostok.zookeeper.client@fixing-repack
     - vostok.zookeeper.client.abstractions
     - vostok.clusterclient.transport
     - vostok.clusterclient.core
