@@ -26,6 +26,8 @@ namespace Vostok.Hercules.Local.Components.Bases
             Properties["context.instance.id"] = $"{InstanceId}";
             Properties["context.environment"] = "dev";
             Properties["context.zone"] = "default";
+
+            Properties["consumer.metric.reporters"] = "ru.kontur.vostok.hercules.kafka.util.metrics.GraphiteReporter";
         }
 
         public int InstanceId { get; }
