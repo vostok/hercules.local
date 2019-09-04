@@ -13,6 +13,7 @@ notests *default:
     - nuget librdkafka.redist/1.0.0
 
   deps:
+    - vostok.devtools.ilrepack.bin@70007143dbeba3f5f7e07a8ade8e4195fcae141a
     - vostok.zookeeper.client
     - vostok.zookeeper.client.abstractions
     - vostok.clusterclient.transport
