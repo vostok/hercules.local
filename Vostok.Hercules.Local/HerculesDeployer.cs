@@ -21,8 +21,7 @@ namespace Vostok.Hercules.Local
             [typeof(HerculesInit)] = "hercules-init",
             [typeof(HerculesGate)] = "hercules-gate",
             [typeof(HerculesManagementApi)] = "hercules-management-api",
-            [typeof(HerculesStreamApi)] = "hercules-stream-api",
-            [typeof(HerculesStreamManager)] = "hercules-stream-manager"
+            [typeof(HerculesStreamApi)] = "hercules-stream-api"
         };
 
         private readonly HerculesDeploySettings deploySettings;
@@ -138,12 +137,7 @@ namespace Vostok.Hercules.Local
                 cluster,
                 deploySettings.HerculesStreamApiCount,
                 id => new HerculesStreamApi(GetHerculesComponentSettings<HerculesStreamApi>(id), clusterSettings, log));
-
-            AddServices(
-                cluster,
-                deploySettings.HerculesStreamManagerCount,
-                id => new HerculesStreamManager(GetHerculesComponentSettings<HerculesStreamManager>(id), clusterSettings, log));
-
+            
             DeployServices(cluster.HerculesServices);
         }
 
