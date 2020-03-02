@@ -6,5 +6,6 @@ namespace Vostok.Hercules.Local.Settings
         public int HerculesGateCount { get; set; } = 1;
         public int HerculesManagementApiCount { get; set; } = 1;
         public int HerculesStreamApiCount { get; set; } = 1;
+        public int HerculesStreamManagerCount { get; set; } = 1;
     }
 }

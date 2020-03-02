@@ -20,6 +20,7 @@ namespace Vostok.Hercules.Local.Tests
                 HerculesGateCount = 1,
                 HerculesManagementApiCount = 0,
                 HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 0
             };
             Check(settings);
         }
@@ -31,7 +32,8 @@ namespace Vostok.Hercules.Local.Tests
             {
                 HerculesGateCount = 0,
                 HerculesManagementApiCount = 1,
-                HerculesStreamApiCount = 0
+                HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 0
             };
             Check(settings);
         }
@@ -43,7 +45,21 @@ namespace Vostok.Hercules.Local.Tests
             {
                 HerculesGateCount = 0,
                 HerculesManagementApiCount = 0,
-                HerculesStreamApiCount = 1
+                HerculesStreamApiCount = 1,
+                HerculesStreamManagerCount = 0
+            };
+            Check(settings);
+        }
+
+        [Test]
+        public void Should_deploy_and_start_management_stream_manager()
+        {
+            var settings = new HerculesDeploySettings
+            {
+                HerculesGateCount = 0,
+                HerculesManagementApiCount = 0,
+                HerculesStreamApiCount = 0,
+                HerculesStreamManagerCount = 1
             };
             Check(settings);
         }
@@ -56,7 +72,8 @@ namespace Vostok.Hercules.Local.Tests
             {
                 HerculesGateCount = size,
                 HerculesManagementApiCount = size,
-                HerculesStreamApiCount = size
+                HerculesStreamApiCount = size,
+                HerculesStreamManagerCount = size
             };
             Check(settings);
         }
