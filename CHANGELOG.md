@@ -1,3 +1,7 @@
+## 0.1.4 (06-04-2020):
+
+Updated Hercules settings.
+
 ## 0.1.3 (27-02-2020):
 
 Updated kafka dependency.
