@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
 using Vostok.Hercules.Local.Settings;
@@ -75,7 +77,16 @@ namespace Vostok.Hercules.Local.Tests
                 HerculesStreamApiCount = size,
                 HerculesStreamManagerCount = size
             };
-            Check(settings);
+            try
+            {
+                Check(settings);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Thread.Sleep(-1);
+            }
+            
         }
 
         [Test]
