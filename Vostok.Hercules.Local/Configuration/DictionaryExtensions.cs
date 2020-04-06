@@ -32,10 +32,10 @@ namespace Vostok.Hercules.Local.Configuration
 
         public static void ConfigureKafkaConsumer(this Dictionary<string, string> properties, string kafkaConnectionString)
         {
-            properties.ConfigureKafkaCommons("consumer", kafkaConnectionString);
-            properties["consumer.retries"] = "0";
-            properties["consumer.poll.timeout"] = "250";
-            properties["consumer.poolSize"] = "30";
+            properties.ConfigureKafkaCommons("stream.api.pool.consumer", kafkaConnectionString);
+            properties["stream.api.pool.consumer.retries"] = "0";
+            properties["stream.api.pool.consumer.poll.timeout"] = "250";
+            properties["stream.api.pool.size"] = "30";
         }
     }
 }
