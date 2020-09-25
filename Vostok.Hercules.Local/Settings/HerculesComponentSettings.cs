@@ -4,6 +4,7 @@ namespace Vostok.Hercules.Local.Settings
     {
         public string BaseDirectory { get; set; }
         public string JarFileName { get; set; }
+        public string Arguments { get; set; }
         public int? InstanceId { get; set; }
     }
 }

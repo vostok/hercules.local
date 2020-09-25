@@ -15,20 +15,8 @@ namespace Vostok.Hercules.Local.Components
             process = new HerculesInitProcess(componentSettings, clusterSettings, log);
         }
 
-        public void Run(TimeSpan timeout)
-        {
-            try
-            {
-                process.Start();
-                process.WaitForExit((int)timeout.TotalMilliseconds);
-                if (process.IsRunning)
-                    throw new TimeoutException($"hercules-init didn't exited in {timeout}.");
-            }
-            finally
-            {
-                process.Stop();
-            }
-        }
+        public void Run(TimeSpan timeout) =>
+            process.Run(timeout);
 
         private class HerculesInitProcess : HerculesProcess
         {
@@ -39,10 +27,6 @@ namespace Vostok.Hercules.Local.Components
                 Properties["kafka.bootstrap.servers"] = clusterSettings.KafkaConnectionString;
                 Properties["kafka.replication.factor"] = "3";
             }
-
-            public void WaitForExit(int milliseconds) => Process.WaitForExit(milliseconds);
-
-            protected override string Arguments => $"{base.Arguments} init-zk=true init-kafka=true";
         }
     }
 }

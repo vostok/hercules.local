@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Vostok.Commons.Local;
 using Vostok.Hercules.Local.Helpers;
 using Vostok.Hercules.Local.Settings;
@@ -7,31 +9,50 @@ using Vostok.Logging.Abstractions;
 
 namespace Vostok.Hercules.Local.Components.Bases
 {
-    public class HerculesProcess : ProcessWrapper
+    public class HerculesProcess
     {
         protected readonly Dictionary<string, string> Properties = new Dictionary<string, string>();
+        private readonly ShellRunner shellRunner;
+        protected readonly ILog Log;
 
         internal HerculesProcess(HerculesComponentSettings componentSettings, ILog log)
-            : base(log, componentSettings.GetDisplayName(), true)
         {
             BaseDirectory = componentSettings.BaseDirectory;
             JarFileName = componentSettings.JarFileName;
+
+            Log = log = log.ForContext(componentSettings.JarFileName);
+
+            shellRunner = new ShellRunner(
+                new ShellRunnerSettings("java")
+                {
+                    Arguments = $"-jar {JarFileName} application.properties=file://{PropertiesFileName} " + componentSettings.Arguments,
+                    WorkingDirectory = BaseDirectory
+                },
+                log);
         }
 
         public string BaseDirectory { get; }
         public string JarFileName { get; }
 
-        public override void Start()
+        public virtual void Start()
         {
             Configure();
-            base.Start();
+            shellRunner.Start();
         }
 
-        protected override string FileName => "java";
-        protected override string Arguments =>
-            $"-jar {JarFileName} application.properties=file://{PropertiesFileName}";
-        protected override string WorkingDirectory => BaseDirectory;
+        public void Stop()
+        {
+            shellRunner.Stop();
+        }
 
+        public void Run(TimeSpan timeout)
+        {
+            Configure();
+            shellRunner.Run(timeout, CancellationToken.None);
+        }
+
+        public bool IsRunning => shellRunner.IsRunning;
+        
         private string PropertiesFileName => Path.Combine(BaseDirectory, "application.properties");
 
         private void Configure()

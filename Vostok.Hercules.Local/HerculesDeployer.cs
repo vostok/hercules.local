@@ -185,7 +185,7 @@ namespace Vostok.Hercules.Local
             var instanceIdSuffix = instanceId != null ? $"-{instanceId}" : "";
             return Path.Combine(baseDirectory, $"{componentName}{instanceIdSuffix}");
         }
-
+        
         private HerculesComponentSettings GetHerculesComponentSettings<TComponent>(int? instanceId = null)
         {
             var componentName = GetComponentName<TComponent>();
@@ -193,8 +193,16 @@ namespace Vostok.Hercules.Local
             {
                 BaseDirectory = GetServiceBaseDirectory(componentName, instanceId),
                 JarFileName = Path.GetFileName(herculesBinariesPaths[componentName]),
-                InstanceId = instanceId
+                InstanceId = instanceId,
+                Arguments = GetArguments(componentName)
             };
+        }
+
+        private string GetArguments(string componentName)
+        {
+            if (componentName == "hercules-init")
+                return "init-zk=true init-kafka=true";
+            return string.Empty;
         }
     }
 }

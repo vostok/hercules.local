@@ -21,7 +21,7 @@ notests *default:
     - vostok.kafka.local
     - vostok.zookeeper.localensemble
     - vostok.logging.abstractions
-    - vostok.commons.local
+    - vostok.commons.local/v2_1
     - vostok.devtools
 
 full-build > notests:

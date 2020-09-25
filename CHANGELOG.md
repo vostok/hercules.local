@@ -1,3 +1,7 @@
+## 0.1.1 (25-09-2020):
+
+Use new `ShellRunner`.
+
 ## 0.1.4 (06-04-2020):
 
 Updated Hercules settings.
