@@ -1,3 +1,7 @@
+## 0.1.6 (19-02-2021):
+
+Fixed bug with not launching Hercules Gate
+
 ## 0.1.5 (25-09-2020):
 
 Use new `ShellRunner`.
