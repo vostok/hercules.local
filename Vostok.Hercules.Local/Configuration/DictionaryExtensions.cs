@@ -25,12 +25,9 @@ namespace Vostok.Hercules.Local.Configuration
 
         public static void ConfigureKafkaProducer(this Dictionary<string, string> properties, string kafkaConnectionString)
         {
-            // properties.ConfigureKafkaCommons("gate.event.sender.producer", kafkaConnectionString);
-            // properties["gate.event.sender.producer.retries"] = "4";
-            // properties["gate.event.sender.producer.retry.backoff.ms"] = "250";
-            properties.ConfigureKafkaCommons("producer", kafkaConnectionString);
-            properties["producer.retries"] = "4";
-            properties["producer.retry.backoff.ms"] = "250";
+            properties.ConfigureKafkaCommons("gate.event.sender.producer", kafkaConnectionString);
+            properties["gate.event.sender.producer.retries"] = "4";
+            properties["gate.event.sender.producer.retry.backoff.ms"] = "250";
         }
 
         public static void ConfigureKafkaConsumer(this Dictionary<string, string> properties, string kafkaConnectionString)

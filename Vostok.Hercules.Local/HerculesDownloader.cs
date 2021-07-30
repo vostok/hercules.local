@@ -16,7 +16,7 @@ namespace Vostok.Hercules.Local
     internal class HerculesDownloader
     {
         // Note(kungurtsev): all releases can be found at https://api.github.com/repos/vostok/hercules/releases.
-        private const string GithubReleasesUrl = "https://api.github.com/repos/vostok/hercules/releases/25102309";
+        private const string GithubReleasesUrl = "https://api.github.com/repos/vostok/hercules/releases/latest";
         private static readonly Regex AssetNameRegex = new Regex(@"(?<name>[a-z-]+)-(?<version>\d[\w\.-]*)\.jar");
 
         private readonly string baseDirectory;
