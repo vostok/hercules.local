@@ -29,7 +29,7 @@ namespace Vostok.Hercules.Local.Helpers
                     .WithAdditionalQueryParameter("key", apiKey)
                     .WithAdditionalQueryParameter("pattern", "*")
                     .WithAdditionalQueryParameter("rights", "rwm"),
-                5.Seconds()
+                15.Seconds()
             );
 
             var result = task.GetAwaiter().GetResult();
