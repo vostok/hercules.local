@@ -10,7 +10,7 @@ namespace Vostok.Hercules.Local.Components.Bases
     public class HerculesService : HerculesProcess
     {
         private readonly HerculesComponentSettings componentSettings;
-        private readonly TimeSpan startTimeout = 120.Seconds();
+        private readonly TimeSpan startTimeout = 300.Seconds();
 
         internal HerculesService(HerculesComponentSettings componentSettings, ILog log)
             : base(componentSettings, log)
