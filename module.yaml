@@ -18,7 +18,7 @@ notests *default:
     - vostok.clusterclient.transport
     - vostok.clusterclient.core
     - vostok.configuration.abstractions
-    - vostok.kafka.local@IncreaseTimeouts
+    - vostok.kafka.local
     - vostok.zookeeper.localensemble
     - vostok.logging.abstractions
     - vostok.commons.local/v2_1
