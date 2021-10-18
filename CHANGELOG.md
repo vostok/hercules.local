@@ -1,3 +1,7 @@
+## 0.1.7 (18-10-2021):
+
+Increase all timeouts.
+
 ## 0.1.6 (19-02-2021):
 
 Fixed bug with not launching Hercules Gate
