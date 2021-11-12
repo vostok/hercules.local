@@ -1,6 +1,6 @@
 # Vostok.Hercules.Local
 
-[![Build status](https://ci.appveyor.com/api/projects/status/github/vostok/hercules.local?svg=true&branch=master)](https://ci.appveyor.com/project/vostok/hercules.local/branch/master)
+[![Build & Test & Publish](https://github.com/vostok/hercules.local/actions/workflows/ci.yml/badge.svg)](https://github.com/vostok/hercules.local/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Vostok.Hercules.Local.svg)](https://www.nuget.org/packages/Vostok.Hercules.Local)
 
 This library allows to deploy and run a local Hercules cluster for testing purposes.
