@@ -9,7 +9,8 @@ jobs:
   test:
     needs: build
     uses: vostok/github.ci/.github/workflows/test.yml@master
-    needs-java: True
+    with:
+      needs-java: True
 
   publish:
     needs: test
