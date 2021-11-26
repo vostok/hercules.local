@@ -38,17 +38,8 @@ namespace Vostok.Hercules.Local
         {
             try
             {
-                var request = Request.Get(Slf4jLoggerUrl);
-                var response = SendRequestAsync(request, 5.Minutes()).GetAwaiter().GetResult();
-
-                if (response.Code != ResponseCode.Ok)
-                    throw new Exception($"Request to {Slf4jLoggerUrl} failed with code = {response.Code}.");
-
-                if (!response.HasContent)
-                    throw new Exception($"Request to {Slf4jLoggerUrl} failed: response is empty.");
-
                 var loggerPath = GetLoggerPath();
-                File.WriteAllBytes(loggerPath, response.Content.Buffer);
+                DownloadAndStore(Slf4jLoggerUrl, loggerPath, GetLoggerName()).GetAwaiter().GetResult();
                 return loggerPath;
             }
             catch (Exception e)
@@ -65,28 +56,28 @@ namespace Vostok.Hercules.Local
 
             var downloads = assets
                 .Where(asset => !File.Exists(GetAssetPath(asset)))
-                .Select(
-                    async asset =>
-                    {
-                        log.Info($"Begin downloading {asset.Name}..");
-
-                        var response = await SendRequestAsync(Request.Get(asset.BrowserDownloadUrl), 5.Minutes()).ConfigureAwait(false);
-                        if (response.Code != ResponseCode.Ok)
-                            throw new Exception($"Request to {asset.BrowserDownloadUrl} failed with code = {response.Code}.");
-
-                        if (!response.HasContent)
-                            throw new Exception($"Request to {asset.BrowserDownloadUrl} failed: response is empty.");
-
-                        var assetPath = GetAssetPath(asset);
-                        File.WriteAllBytes(assetPath, response.Content.Buffer);
-
-                        log.Info($"Downloading {asset.Name} complete, stored at {assetPath}.");
-                    })
+                .Select(asset => DownloadAndStore(asset.BrowserDownloadUrl, GetAssetPath(asset), asset.Name))
                 .ToArray();
 
             Task.WaitAll(downloads);
 
             return assets.ToDictionary(GetComponentName, GetAssetPath);
+        }
+
+        private async Task DownloadAndStore(string url, string path, string name)
+        {
+            log.Info($"Begin downloading {name}..");
+
+            var response = await SendRequestAsync(Request.Get(url), 5.Minutes()).ConfigureAwait(false);
+            if (response.Code != ResponseCode.Ok)
+                throw new Exception($"Request to {url} failed with code = {response.Code}.");
+
+            if (!response.HasContent)
+                throw new Exception($"Request to {url} failed: response is empty.");
+
+            File.WriteAllBytes(path, response.Content.Buffer);
+
+            log.Info($"Downloading {name} complete, stored at {path}.");
         }
 
         private string CacheDirectoryPath => Path.Combine(baseDirectory, ".hercules-cache");
@@ -151,7 +142,9 @@ namespace Vostok.Hercules.Local
             return Path.Combine(CacheDirectoryPath, asset.Name);
         }
 
-        private string GetLoggerPath() => Path.Combine(CacheDirectoryPath, Slf4jLoggerUrl.Split('/').Last());
+        private string GetLoggerPath() => Path.Combine(CacheDirectoryPath, GetLoggerName());
+
+        private static string GetLoggerName() => Slf4jLoggerUrl.Split('/').Last();
 
         private Task<Response> SendRequestAsync(Request request, TimeSpan timeout)
         {
