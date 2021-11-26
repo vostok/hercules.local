@@ -21,7 +21,6 @@ namespace Vostok.Hercules.Local
                     WorkingDirectory = baseDirectory
                 },
                 log);
-            throw new Exception($"{loggerPath}, {string.Join("", componentPaths)}");
             log.Info("{loggerName}, {loggerPath}", loggerName, loggerPath);
 
             var updateTasks = componentPaths.Select(x =>
@@ -37,6 +36,10 @@ namespace Vostok.Hercules.Local
             }).ToArray();
 
             extractor.Run(TimeSpan.FromSeconds(10), CancellationToken.None);
+
+            if (!Directory.Exists(Path.Combine(baseDirectory, "org")))
+                throw new Exception($"{loggerPath}, {baseDirectory}\n{string.Join("\n", componentPaths)}");
+
             Task.WaitAll(updateTasks);
         }
     }
