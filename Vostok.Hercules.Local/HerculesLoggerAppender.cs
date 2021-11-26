@@ -21,6 +21,7 @@ namespace Vostok.Hercules.Local
                     WorkingDirectory = baseDirectory
                 },
                 log);
+            throw new Exception($"{loggerPath}, {string.Join("", componentPaths)}");
             log.Info("{loggerName}, {loggerPath}", loggerName, loggerPath);
 
             var updateTasks = componentPaths.Select(x =>
