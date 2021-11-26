@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="..\..\vostok.commons.helpers\Vostok.Commons.Helpers\Network\FreeTcpPortFinder.cs" Link="Commons\FreeTcpPortFinder.cs" />
     <Compile Include="..\..\vostok.commons.time\Vostok.Commons.Time\TimeSpanConversions.cs" Link="Commons\TimeSpanConversions.cs" />
+    <Compile Include="..\..\vostok.commons.local\Vostok.Commons.Local\Helpers\Retrier.cs" Link="Commons\Retrier.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
