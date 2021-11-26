@@ -1,3 +1,8 @@
+## 0.1.8 (26-11-2021):
+
+- Added LoggerAppender. HerculesCluster is now writing it's log in stdout.
+- Added retries for Hercules cluster deployment.
+
 ## 0.1.7 (18-10-2021):
 
 Increase all timeouts.
