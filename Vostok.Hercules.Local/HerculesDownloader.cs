@@ -15,6 +15,8 @@ namespace Vostok.Hercules.Local
 {
     internal class HerculesDownloader
     {
+        // NOTE(tsup): Console logger implementation to add to Hercules jar files.
+        private const string Slf4jLoggerUrl = "https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.9/slf4j-simple-1.7.9.jar";
         // Note(kungurtsev): all releases can be found at https://api.github.com/repos/vostok/hercules/releases.
         private const string GithubReleasesUrl = "https://api.github.com/repos/vostok/hercules/releases/latest";
         private static readonly Regex AssetNameRegex = new Regex(@"(?<name>[a-z-]+)-(?<version>\d[\w\.-]*)\.jar");
@@ -32,6 +34,20 @@ namespace Vostok.Hercules.Local
             Directory.CreateDirectory(CacheDirectoryPath);
         }
 
+        public string GetLogger()
+        {
+            try
+            {
+                var loggerPath = GetLoggerPath();
+                DownloadAndStore(Slf4jLoggerUrl, loggerPath, GetLoggerName()).GetAwaiter().GetResult();
+                return loggerPath;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to download slf4j logger for Hercules", e);
+            }
+        }
+
         public Dictionary<string, string> GetLatestBinaries(string[] componentNames)
         {
             var assets = GetLatestReleaseAssets()
@@ -40,28 +56,28 @@ namespace Vostok.Hercules.Local
 
             var downloads = assets
                 .Where(asset => !File.Exists(GetAssetPath(asset)))
-                .Select(
-                    async asset =>
-                    {
-                        log.Info($"Begin downloading {asset.Name}..");
-
-                        var response = await SendRequestAsync(Request.Get(asset.BrowserDownloadUrl), 5.Minutes()).ConfigureAwait(false);
-                        if (response.Code != ResponseCode.Ok)
-                            throw new Exception($"Request to {asset.BrowserDownloadUrl} failed with code = {response.Code}.");
-
-                        if (!response.HasContent)
-                            throw new Exception($"Request to {asset.BrowserDownloadUrl} failed: response is empty.");
-
-                        var assetPath = GetAssetPath(asset);
-                        File.WriteAllBytes(assetPath, response.Content.Buffer);
-
-                        log.Info($"Downloading {asset.Name} complete, stored at {assetPath}.");
-                    })
+                .Select(asset => DownloadAndStore(asset.BrowserDownloadUrl, GetAssetPath(asset), asset.Name))
                 .ToArray();
 
             Task.WaitAll(downloads);
 
             return assets.ToDictionary(GetComponentName, GetAssetPath);
+        }
+
+        private async Task DownloadAndStore(string url, string path, string name)
+        {
+            log.Info($"Begin downloading {name}..");
+
+            var response = await SendRequestAsync(Request.Get(url), 5.Minutes()).ConfigureAwait(false);
+            if (response.Code != ResponseCode.Ok)
+                throw new Exception($"Request to {url} failed with code = {response.Code}.");
+
+            if (!response.HasContent)
+                throw new Exception($"Request to {url} failed: response is empty.");
+
+            File.WriteAllBytes(path, response.Content.Buffer);
+
+            log.Info($"Downloading {name} completed, stored at {path}.");
         }
 
         private string CacheDirectoryPath => Path.Combine(baseDirectory, ".hercules-cache");
@@ -125,6 +141,10 @@ namespace Vostok.Hercules.Local
         {
             return Path.Combine(CacheDirectoryPath, asset.Name);
         }
+
+        private string GetLoggerPath() => Path.Combine(CacheDirectoryPath, GetLoggerName());
+
+        private static string GetLoggerName() => Slf4jLoggerUrl.Split('/').Last();
 
         private Task<Response> SendRequestAsync(Request request, TimeSpan timeout)
         {

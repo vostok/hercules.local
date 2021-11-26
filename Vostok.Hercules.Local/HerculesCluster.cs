@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vostok.Clusterclient.Core.Topology;
+using Vostok.Commons.Local.Helpers;
 using Vostok.Hercules.Local.Components;
 using Vostok.Hercules.Local.Components.Bases;
 using Vostok.Hercules.Local.Settings;
@@ -30,18 +31,22 @@ namespace Vostok.Hercules.Local
 
         public static HerculesCluster DeployNew(HerculesDeploySettings deploySettings, ILog log, bool started = true)
         {
-            var cluster = new HerculesDeployer(deploySettings, log).Deploy();
-            try
+            HerculesCluster cluster = null;
+
+            Retrier.RetryOnException(() =>
             {
+                cluster = new HerculesDeployer(deploySettings, log).Deploy();
+
                 if (started)
                     cluster.Start();
-            }
-            catch (Exception error)
+            }, 
+            3,
+            "Unable to start Hercules.Local", 
+            () =>
             {
-                log.Error(error, "Error in starting hercules. Will try to stop and cleanup.");
+                log.Warn("Retrying Hercules.Local deployment...");
                 cluster?.Dispose();
-                throw;
-            }
+            });
 
             return cluster;
         }
