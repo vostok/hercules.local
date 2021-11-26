@@ -21,7 +21,6 @@ namespace Vostok.Hercules.Local
                     WorkingDirectory = baseDirectory
                 },
                 log);
-            log.Info("{loggerName}, {loggerPath}", loggerName, loggerPath);
 
             var updateTasks = componentPaths.Select(x =>
             {

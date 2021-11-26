@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using Vostok.Commons.Helpers.Network;
 using Vostok.Commons.Time;
 using Vostok.Hercules.Local.Helpers;
@@ -10,7 +9,6 @@ namespace Vostok.Hercules.Local.Components.Bases
 {
     public class HerculesService : HerculesProcess
     {
-        private static readonly ConcurrentDictionary<int, bool> PortSet = new ConcurrentDictionary<int, bool>();
         private readonly HerculesComponentSettings componentSettings;
         private readonly TimeSpan startTimeout = 120.Seconds();
 
@@ -38,20 +36,7 @@ namespace Vostok.Hercules.Local.Components.Bases
 
         public override void Start()
         {
-            var success = false;
-            for (var i = 0; i < 100; ++i)
-            {
-                Port = FreeTcpPortFinder.GetFreePort();
-
-                if (PortSet.TryAdd(Port, true))
-                {
-                    success = true;
-                    break;
-                }
-            }
-
-            if (!success)
-                throw new Exception("Unable to find free port!");
+            Port = FreeTcpPortFinder.GetFreePort();
 
             Properties["http.server.host"] = Host;
             Properties["http.server.port"] = Port.ToString();
