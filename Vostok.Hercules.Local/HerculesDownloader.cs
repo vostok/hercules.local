@@ -77,7 +77,7 @@ namespace Vostok.Hercules.Local
 
             File.WriteAllBytes(path, response.Content.Buffer);
 
-            log.Info($"Downloading {name} complete, stored at {path}.");
+            log.Info($"Downloading {name} completed, stored at {path}.");
         }
 
         private string CacheDirectoryPath => Path.Combine(baseDirectory, ".hercules-cache");
