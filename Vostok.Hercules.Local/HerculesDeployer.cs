@@ -47,8 +47,9 @@ namespace Vostok.Hercules.Local
         public HerculesCluster Deploy()
         {
             Directory.CreateDirectory(baseDirectory);
-
-            herculesBinariesPaths = new HerculesDownloader(baseDirectory, log).GetLatestBinaries(ComponentNames.Values.ToArray());
+            var downloader = new HerculesDownloader(baseDirectory, log);
+            herculesBinariesPaths = downloader.GetLatestBinaries(ComponentNames.Values.ToArray());
+            HerculesLoggerAppender.AppendLogger(downloader.GetLogger(), herculesBinariesPaths.Values, log);
 
             var cluster = new HerculesCluster();
 

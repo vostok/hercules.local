@@ -15,6 +15,8 @@ namespace Vostok.Hercules.Local
 {
     internal class HerculesDownloader
     {
+        // NOTE(tsup): Console logger implementation to add to Hercules jar files.
+        private const string Slf4jLoggerUrl = "https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.9/slf4j-simple-1.7.9.jar";
         // Note(kungurtsev): all releases can be found at https://api.github.com/repos/vostok/hercules/releases.
         private const string GithubReleasesUrl = "https://api.github.com/repos/vostok/hercules/releases/latest";
         private static readonly Regex AssetNameRegex = new Regex(@"(?<name>[a-z-]+)-(?<version>\d[\w\.-]*)\.jar");
@@ -30,6 +32,29 @@ namespace Vostok.Hercules.Local
 
             transport = new UniversalTransport(new UniversalTransportSettings {AllowAutoRedirect = true}, log);
             Directory.CreateDirectory(CacheDirectoryPath);
+        }
+
+        public string GetLogger()
+        {
+            try
+            {
+                var request = Request.Get(Slf4jLoggerUrl);
+                var response = SendRequestAsync(request, 5.Minutes()).GetAwaiter().GetResult();
+
+                if (response.Code != ResponseCode.Ok)
+                    throw new Exception($"Request to {Slf4jLoggerUrl} failed with code = {response.Code}.");
+
+                if (!response.HasContent)
+                    throw new Exception($"Request to {Slf4jLoggerUrl} failed: response is empty.");
+
+                var loggerPath = GetLoggerPath();
+                File.WriteAllBytes(loggerPath, response.Content.Buffer);
+                return loggerPath;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Failed to download slf4j logger for Hercules", e);
+            }
         }
 
         public Dictionary<string, string> GetLatestBinaries(string[] componentNames)
@@ -125,6 +150,8 @@ namespace Vostok.Hercules.Local
         {
             return Path.Combine(CacheDirectoryPath, asset.Name);
         }
+
+        private string GetLoggerPath() => Path.Combine(CacheDirectoryPath, Slf4jLoggerUrl.Split('/').Last());
 
         private Task<Response> SendRequestAsync(Request request, TimeSpan timeout)
         {
