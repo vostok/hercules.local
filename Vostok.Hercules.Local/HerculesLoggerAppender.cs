@@ -32,14 +32,10 @@ namespace Vostok.Hercules.Local
                         WorkingDirectory = baseDirectory
                     },
                     log);
-                return updater.RunAsync(TimeSpan.FromSeconds(10), CancellationToken.None);
+                return updater.RunAsync(TimeSpan.FromSeconds(30), CancellationToken.None);
             }).ToArray();
 
-            extractor.Run(TimeSpan.FromSeconds(10), CancellationToken.None);
-
-            if (!Directory.Exists(Path.Combine(baseDirectory, "org")))
-                throw new Exception($"{loggerPath}, {baseDirectory}\n{string.Join("\n", componentPaths)}");
-
+            extractor.Run(TimeSpan.FromSeconds(30), CancellationToken.None);
             Task.WaitAll(updateTasks);
         }
     }
