@@ -1,3 +1,7 @@
+## 0.1.9 (06-12-2021):
+
+Added `net6.0` target.
+
 ## 0.1.8 (26-11-2021):
 
 - Added LoggerAppender. HerculesCluster is now writing it's log in stdout.
