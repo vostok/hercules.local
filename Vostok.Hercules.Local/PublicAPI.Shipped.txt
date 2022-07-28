@@ -1,0 +1,48 @@
+override Vostok.Hercules.Local.Components.Bases.HerculesService.Start() -> void
+static Vostok.Hercules.Local.HerculesCluster.DeployNew(string baseDirectory, Vostok.Logging.Abstractions.ILog log, bool started = true) -> Vostok.Hercules.Local.HerculesCluster
+static Vostok.Hercules.Local.HerculesCluster.DeployNew(Vostok.Hercules.Local.Settings.HerculesDeploySettings deploySettings, Vostok.Logging.Abstractions.ILog log, bool started = true) -> Vostok.Hercules.Local.HerculesCluster
+static Vostok.Hercules.Local.HerculesCluster.DeployNew(Vostok.Logging.Abstractions.ILog log, bool started = true) -> Vostok.Hercules.Local.HerculesCluster
+virtual Vostok.Hercules.Local.Components.Bases.HerculesProcess.Start() -> void
+Vostok.Hercules.Local.Components.Bases.HerculesProcess
+Vostok.Hercules.Local.Components.Bases.HerculesProcess.BaseDirectory.get -> string
+Vostok.Hercules.Local.Components.Bases.HerculesProcess.IsRunning.get -> bool
+Vostok.Hercules.Local.Components.Bases.HerculesProcess.JarFileName.get -> string
+Vostok.Hercules.Local.Components.Bases.HerculesProcess.Run(System.TimeSpan timeout) -> void
+Vostok.Hercules.Local.Components.Bases.HerculesProcess.Stop() -> void
+Vostok.Hercules.Local.Components.Bases.HerculesService
+Vostok.Hercules.Local.Components.Bases.HerculesService.Host.get -> string
+Vostok.Hercules.Local.Components.Bases.HerculesService.InstanceId.get -> int
+Vostok.Hercules.Local.Components.Bases.HerculesService.Port.get -> int
+Vostok.Hercules.Local.Components.HerculesGate
+Vostok.Hercules.Local.Components.HerculesInit
+Vostok.Hercules.Local.Components.HerculesInit.Run(System.TimeSpan timeout) -> void
+Vostok.Hercules.Local.Components.HerculesManagementApi
+Vostok.Hercules.Local.Components.HerculesStreamApi
+Vostok.Hercules.Local.Components.HerculesStreamManager
+Vostok.Hercules.Local.HerculesCluster
+Vostok.Hercules.Local.HerculesCluster.ApiKey.get -> string
+Vostok.Hercules.Local.HerculesCluster.Dispose() -> void
+Vostok.Hercules.Local.HerculesCluster.HerculesGateInstances.get -> System.Collections.Generic.IReadOnlyList<Vostok.Hercules.Local.Components.HerculesGate>
+Vostok.Hercules.Local.HerculesCluster.HerculesGateTopology.get -> Vostok.Clusterclient.Core.Topology.IClusterProvider
+Vostok.Hercules.Local.HerculesCluster.HerculesManagementApiInstances.get -> System.Collections.Generic.IReadOnlyList<Vostok.Hercules.Local.Components.HerculesManagementApi>
+Vostok.Hercules.Local.HerculesCluster.HerculesManagementApiTopology.get -> Vostok.Clusterclient.Core.Topology.IClusterProvider
+Vostok.Hercules.Local.HerculesCluster.HerculesStreamApiInstances.get -> System.Collections.Generic.IReadOnlyList<Vostok.Hercules.Local.Components.HerculesStreamApi>
+Vostok.Hercules.Local.HerculesCluster.HerculesStreamApiTopology.get -> Vostok.Clusterclient.Core.Topology.IClusterProvider
+Vostok.Hercules.Local.HerculesCluster.HerculesStreamManagerInstances.get -> System.Collections.Generic.IReadOnlyList<Vostok.Hercules.Local.Components.HerculesStreamManager>
+Vostok.Hercules.Local.HerculesCluster.HerculesStreamManagerTopology.get -> Vostok.Clusterclient.Core.Topology.IClusterProvider
+Vostok.Hercules.Local.HerculesCluster.KafkaInstance.get -> Vostok.Kafka.Local.KafkaInstance
+Vostok.Hercules.Local.HerculesCluster.Start() -> void
+Vostok.Hercules.Local.HerculesCluster.Stop() -> void
+Vostok.Hercules.Local.HerculesCluster.ZooKeeperEnsemble.get -> Vostok.ZooKeeper.LocalEnsemble.ZooKeeperEnsemble
+Vostok.Hercules.Local.Settings.HerculesDeploySettings
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.BaseDirectory.get -> string
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.BaseDirectory.set -> void
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesDeploySettings() -> void
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesGateCount.get -> int
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesGateCount.set -> void
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesManagementApiCount.get -> int
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesManagementApiCount.set -> void
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesStreamApiCount.get -> int
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesStreamApiCount.set -> void
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesStreamManagerCount.get -> int
+Vostok.Hercules.Local.Settings.HerculesDeploySettings.HerculesStreamManagerCount.set -> void
